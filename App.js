@@ -1,22 +1,44 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { useState } from 'react';
+import TextBubble from './components/TextBubble';
+import TextInputField from './components/TextInputField';
 
 export default function App() {
+  const [textBubbles, setTextBubbles] = useState([]);
+  const [inputText, setInputText] = useState("");
+
+  const AddTextBubble = (text) => {
+    setTextBubbles([...textBubbles, text]);
+    setInputText("");
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.questionText}>Open up App.js to start working on your app!</Text>
       <StatusBar hidden={true} />
+
+      <View style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: 20, paddingBottom: 0, marginBottom: 20 }}>
+        {textBubbles.map((bubble, index) => (
+          <TextBubble key={index} text={bubble} isUser={index % 2 === 0} />
+        ))}
+      </View>
       
-      <LinearGradient colors={['#363642', '#2c2c36']} style={styles.inputContainer}>
-        <View style={styles.inputButton}><Text>{">"}</Text></View>
-        <TextInput style={styles.answerInput}/>
-      </LinearGradient>
+      <TextInputField value={inputText} onChangeText={setInputText} onSubmit={() => { AddTextBubble(inputText); }}/>
+      
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  alignSelfStart: {
+    alignSelf: 'flex-start',
+  },
+  alignSelfEnd: {
+    alignSelf: 'flex-end',
+  },
+
   container: {
     paddingTop: 50,
     paddingBottom: 50,
@@ -35,34 +57,4 @@ const styles = StyleSheet.create({
     borderBottomColor: '#3b3b4b',
     borderBottomWidth: 1,
   },
-
-  answerInput: {
-    margin: 5,
-    color: '#fff',
-    fontSize: 18,
-  },
-  
-  inputContainer: {
-    position: 'absolute',
-    bottom: 100,
-
-    width: '100%',
-
-    borderColor: '#58586d',
-    borderWidth: 2,
-    boxShadow: '0px 4px 5px 2px rgba(0, 0, 0, 0.25)',
-    borderRadius: 20,
-  },
-
-  inputButton: {
-    backgroundColor: 'white',
-    width: 30,
-    height: 30,
-
-    borderRadius: 20,
-    padding: 10,
-    margin: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
 });
