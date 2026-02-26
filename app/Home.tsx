@@ -1,22 +1,30 @@
-import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import { useState } from 'react';
-import TextBubble from './components/TextBubble';
-import TextInputField from './components/TextInputField';
+import { StyleSheet, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import TextBubble from '../components/TextBubble';
+import TextInputField from '../components/TextInputField';
+import { router, useFocusEffect } from 'expo-router';
 
 export default function App() {
   const [textBubbles, setTextBubbles] = useState([]);
   const [inputText, setInputText] = useState("");
 
+  const hasMatchedCouple: boolean = false;
+
+  useFocusEffect(() => {
+    if (!hasMatchedCouple) {
+      router.push("/FindMatch");
+    }
+  });
+
   const AddTextBubble = (text) => {
     setTextBubbles([...textBubbles, text]);
     setInputText("");
+    router.push("/FindMatch");
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.questionText}>Open up App.js to start working on your app!</Text>
       <StatusBar hidden={true} />
 
       <View style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: 20, paddingBottom: 0, marginBottom: 20 }}>
