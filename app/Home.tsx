@@ -4,12 +4,22 @@ import { useEffect, useState } from 'react';
 import TextBubble from '../components/TextBubble';
 import TextInputField from '../components/TextInputField';
 import { router, useFocusEffect } from 'expo-router';
+import * as SQLite from 'expo-sqlite';
+
 
 export default function App() {
   const [textBubbles, setTextBubbles] = useState([]);
   const [inputText, setInputText] = useState("");
 
   const hasMatchedCouple: boolean = true;
+
+  const userInCouple = async () => {
+    const db = await SQLite.openDatabaseAsync("dash.db");
+
+    var result = await db.getFirstAsync("SELECT userID FROM app_settings;");
+
+    return false;
+  }
 
   useFocusEffect(() => {
     if (!hasMatchedCouple) {
