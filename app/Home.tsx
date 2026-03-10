@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import TextBubble from '../components/TextBubble';
 import TextInputField from '../components/TextInputField';
 import { router, useFocusEffect } from 'expo-router';
