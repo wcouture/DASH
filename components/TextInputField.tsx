@@ -44,12 +44,17 @@ const styles = StyleSheet.create({
     },
 
     inputButton: {
-        backgroundColor: 'white',
+        borderColor: '#2e866c',
+        borderWidth: 3,
+        borderStyle: 'dotted',
+        backgroundColor: '#22c573',
         position: 'absolute',
         right: 10,
 
         width: 30,
         height: 30,
+
+        boxShadow: '0px 2px 5px 2px rgba(0, 0, 0, 0.25)',
 
         borderRadius: 20,
         padding: 10,

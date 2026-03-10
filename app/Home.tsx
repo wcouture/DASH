@@ -1,15 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { useState } from 'react';
 import TextBubble from '../components/TextBubble';
 import TextInputField from '../components/TextInputField';
 import { router, useFocusEffect } from 'expo-router';
+import * as SQLite from 'expo-sqlite';
+
 
 export default function App() {
   const [textBubbles, setTextBubbles] = useState([]);
   const [inputText, setInputText] = useState("");
 
-  const hasMatchedCouple: boolean = false;
+  const hasMatchedCouple: boolean = true;
+
+  const userInCouple = async () => {
+    const db = await SQLite.openDatabaseAsync("dash.db");
+
+    var result = await db.getFirstAsync("SELECT userID FROM app_settings;");
+
+    return false;
+  }
 
   useFocusEffect(() => {
     if (!hasMatchedCouple) {
@@ -20,18 +30,17 @@ export default function App() {
   const AddTextBubble = (text) => {
     setTextBubbles([...textBubbles, text]);
     setInputText("");
-    router.push("/FindMatch");
   }
 
   return (
     <View style={styles.container}>
       <StatusBar hidden={true} />
 
-      <View style={{ display: 'flex', flexDirection: 'column', width: '100%', padding: 20, paddingBottom: 0, marginBottom: 20 }}>
+      <ScrollView style={styles.messageContainer}>
         {textBubbles.map((bubble, index) => (
           <TextBubble key={index} text={bubble} isUser={index % 2 === 0} />
         ))}
-      </View>
+      </ScrollView>
       
       <TextInputField value={inputText} onChangeText={setInputText} onSubmit={() => { AddTextBubble(inputText); }}/>
       
@@ -40,6 +49,18 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  messageContainer: { 
+    display: 'flex', 
+    flexDirection: 'column', 
+    width: '100%', 
+    padding: 20, 
+    paddingBottom: 0, 
+    marginBottom: 20, 
+    overflow: 'scroll',
+  
+  },
+
+
   alignSelfStart: {
     alignSelf: 'flex-start',
   },
